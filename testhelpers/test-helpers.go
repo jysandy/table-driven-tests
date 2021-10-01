@@ -70,18 +70,20 @@ func CallFunction(function interface{}, args []interface{}) ([]interface{}, erro
 }
 
 func RunTableDrivenTests(t *testing.T, functionUnderTest interface{}, tests []TableDrivenTest) {
-	for i, tt := range tests {
-		result, err := CallFunction(functionUnderTest, tt.Args)
+	for _, tt := range tests {
+		t.Run(tt.Name, func(t *testing.T) {
+			result, err := CallFunction(functionUnderTest, tt.Args)
 
-		if err != nil {
-			t.Errorf("Error while calling function under test at test number %d: %s", i, err)
-			continue
-		}
+			if err != nil {
+				t.Errorf("Error while calling function under test: %s", err)
+				return
+			}
 
-		got := result[0]
+			got := result[0]
 
-		if got != tt.Want {
-			t.Errorf("Got %v, want %v", got, tt.Want)
-		}
+			if got != tt.Want {
+				t.Errorf("Got %v, want %v", got, tt.Want)
+			}
+		})
 	}
 }
