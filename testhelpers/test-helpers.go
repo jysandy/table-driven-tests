@@ -12,16 +12,6 @@ type TableDrivenTest struct {
 	Want interface{}
 }
 
-func (tt TableDrivenTest) argsAsValues() []reflect.Value {
-	var ret []reflect.Value
-
-	for _, arg := range tt.Args {
-		ret = append(ret, reflect.ValueOf(arg))
-	}
-
-	return ret
-}
-
 func interfacesToValues(items []interface{}) []reflect.Value {
 	var ret []reflect.Value
 
